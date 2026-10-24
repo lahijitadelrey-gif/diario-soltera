@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>El Diario De Una Soltera</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Instrument+Serif:ital@0;1&family=Kaushan+Script&family=Nunito:wght@400;600;700&display=swap">
+<style>
+/* Concepto: página de venta vertical, de una sola columna de lectura, con la portada 3D como protagonista y círculos dorados como motivo de la marca. */
+:root {
+  --bg: #FDF1F1;
+  --paper: #FFF9F8;
+  --band: #FBE4E6;
+  --ink: #5A3A2E;
+  --ink-soft: #8A6E65;
+  --rose: #D98C94;
+  --hot: #E0457B;
+  --gold: #B8921C;
+  --line: #EBCFD2;
+  --on-hot: #FFFFFF;
+  --shadow: 0 18px 40px rgba(120, 60, 70, .16);
+  --f-display: "Gloock", "Georgia", serif;
+  --f-italic: "Instrument Serif", "Georgia", serif;
+  --f-script: "Kaushan Script", "Brush Script MT", cursive;
+  --f-body: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #2A1C20; --paper: #34252A; --band: #3A2A30; --ink: #F6E6E2; --ink-soft: #CDAFA8;
+    --rose: #E7A0A8; --hot: #F0709B; --gold: #E2BC4A; --line: #54393F; --on-hot: #2A1C20;
+    --shadow: 0 18px 40px rgba(0, 0, 0, .4); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #2A1C20; --paper: #34252A; --band: #3A2A30; --ink: #F6E6E2; --ink-soft: #CDAFA8;
+  --rose: #E7A0A8; --hot: #F0709B; --gold: #E2BC4A; --line: #54393F; --on-hot: #2A1C20;
+  --shadow: 0 18px 40px rgba(0, 0, 0, .4); color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 17px; line-height: 1.6;
+  margin: 0;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--paper); }
+img { display: block; max-width: 100%; height: auto; }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 400; line-height: 1.12; margin: 0; text-wrap: balance; }
+p { margin: 0; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--hot); outline-offset: 3px; border-radius: 6px; }
+
+.wrap { max-width: 1060px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.band { padding-block: clamp(48px, 8vw, 92px); }
+.band.alt { background: var(--band); }
+.band.paper { background: var(--paper); }
+
+.eyebrow { font-family: var(--f-body); font-weight: 700; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--hot); }
+.h2 { font-size: clamp(30px, 5vw, 46px); }
+.lede { font-size: clamp(18px, 2.2vw, 21px); color: var(--ink-soft); max-width: 60ch; }
+.center { text-align: center; }
+.center .lede { margin-inline: auto; }
+.stack > * + * { margin-top: 16px; }
+
+/* barra superior */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--paper); border-bottom: 1px solid var(--line); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 10px; }
+.brand { font-family: var(--f-display); font-size: 18px; text-decoration: none; white-space: nowrap; }
+.brand b { font-family: var(--f-script); font-weight: 400; color: var(--hot); font-size: 22px; }
+
+/* botones */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 14px 28px; border-radius: 999px; background: var(--hot); color: var(--on-hot); font: 700 17px/1.2 var(--f-body); text-decoration: none; border: 0; cursor: pointer; box-shadow: 0 10px 24px rgba(224, 69, 123, .32); transition: transform .15s ease, box-shadow .15s ease; text-align: center; }
+.btn:hover { transform: translateY(-2px); box-shadow: 0 14px 28px rgba(224, 69, 123, .38); }
+.btn.small { min-height: 42px; padding: 9px 20px; font-size: 15px; box-shadow: none; }
+.btn.ghost { background: transparent; color: var(--ink); border: 2px solid var(--rose); box-shadow: none; }
+.btn.ghost:hover { background: var(--band); }
+
+/* hero */
+.hero { padding-block: clamp(36px, 6vw, 72px); }
+.hero .grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(24px, 5vw, 64px); align-items: center; }
+.hero h1 { font-size: clamp(36px, 6.4vw, 66px); margin-top: 14px; }
+.hero h1 .script { font-family: var(--f-script); color: var(--hot); font-size: 1.12em; display: inline-block; transform: rotate(-2deg); }
+.hero .lede { margin-top: 18px; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 26px; }
+.price-note { font-size: 15px; color: var(--ink-soft); margin-top: 14px; }
+.price-note strong { color: var(--ink); font-size: 18px; }
+.hero-art { position: relative; justify-self: center; width: min(100%, 400px); }
+.hero-art img { position: relative; width: 100%; border-radius: 26px; box-shadow: 0 26px 50px rgba(120, 60, 70, .26); border: 4px solid var(--paper); }
+.badge { position: absolute; background: var(--paper); border: 1.5px solid var(--gold); color: var(--ink); border-radius: 999px; padding: 8px 14px; font-weight: 700; font-size: 14px; box-shadow: var(--shadow); white-space: nowrap; }
+.badge.b1 { top: 8%; right: -2%; }
+.badge.b2 { bottom: 14%; left: -2%; }
+.trust { display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 30px; padding: 0; list-style: none; font-size: 15px; color: var(--ink-soft); }
+.trust li::before { content: "♥"; color: var(--rose); margin-right: 8px; }
+
+/* problema */
+.quotes { margin: 34px auto 0; max-width: 760px; padding: 0; list-style: none; }
+.quotes li { font-family: var(--f-italic); font-style: italic; font-size: clamp(24px, 3.6vw, 34px); line-height: 1.25; padding: 18px 0; border-top: 1px solid var(--line); text-wrap: balance; }
+.quotes li:last-child { border-bottom: 1px solid var(--line); }
+.pivot { margin: 34px auto 0; max-width: 62ch; font-size: 19px; }
+
+/* secciones del diario */
+.sections { display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; margin-top: 40px; }
+.sec { text-align: center; }
+.sec .ring { width: min(100%, 168px); margin: 0 auto; aspect-ratio: 1; border-radius: 50%; padding: 5px; background: var(--paper); border: 2px solid var(--gold); box-shadow: 0 0 0 6px var(--band); }
+.sec img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.sec h3 { font-size: 22px; margin-top: 18px; }
+.sec p { font-size: 15px; color: var(--ink-soft); margin-top: 6px; line-height: 1.45; }
+
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 5vw, 60px); align-items: center; }
+.checks { list-style: none; padding: 0; margin: 22px 0 0; display: grid; gap: 12px; }
+.checks li { padding-left: 34px; position: relative; }
+.checks li::before { content: "✓"; position: absolute; left: 0; top: 1px; width: 24px; height: 24px; border-radius: 50%; background: var(--hot); color: var(--on-hot); font-size: 14px; font-weight: 700; display: grid; place-items: center; }
+
+/* vista previa */
+.peek { display: flex; gap: 18px; overflow-x: auto; padding: 8px 4px 22px; margin-top: 32px; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; }
+.peek figure { margin: 0; flex: 0 0 auto; width: clamp(190px, 26vw, 250px); scroll-snap-align: start; }
+.peek img { width: 100%; border-radius: 10px; border: 1px solid var(--line); box-shadow: var(--shadow); background: #fff; }
+.peek figcaption { font-size: 14px; color: var(--ink-soft); margin-top: 10px; text-align: center; }
+
+/* bonos */
+.bonus-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 40px; }
+.bonus { background: var(--paper); border: 1px solid var(--line); border-radius: 22px; padding: 26px 22px 28px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 14px; min-width: 0; }
+.bonus .tag { font-weight: 700; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--on-hot); background: var(--hot); border-radius: 999px; padding: 5px 14px; }
+.bonus img { width: min(100%, 210px); filter: drop-shadow(0 14px 16px rgba(120, 60, 70, .25)); }
+.bonus h3 { font-size: 24px; }
+.bonus p { font-size: 15.5px; color: var(--ink-soft); }
+.bonus .facts { font-weight: 700; font-size: 14px; color: var(--ink); margin-top: auto; padding-top: 6px; }
+
+/* beneficios */
+.benefits { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 48px; margin-top: 36px; }
+.benefit { padding: 20px 0; border-top: 1px solid var(--line); }
+.benefit h3 { font-size: 23px; }
+.benefit p { color: var(--ink-soft); margin-top: 6px; font-size: 16px; }
+
+/* para quién */
+.who { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 36px; }
+.who > div { background: var(--paper); border: 1px solid var(--line); border-radius: 22px; padding: 26px; min-width: 0; }
+.who h3 { font-size: 24px; margin-bottom: 12px; }
+.who ul { margin: 0; padding-left: 20px; display: grid; gap: 9px; }
+
+/* pasos */
+.steps { counter-reset: s; list-style: none; padding: 0; margin: 36px 0 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.steps li { counter-increment: s; background: var(--paper); border: 1px solid var(--line); border-radius: 20px; padding: 22px 18px; font-size: 15.5px; min-width: 0; }
+.steps li::before { content: counter(s); display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: var(--gold); color: var(--paper); font-family: var(--f-display); font-size: 19px; margin-bottom: 12px; }
+.steps b { display: block; font-size: 17px; margin-bottom: 4px; }
+
+/* oferta */
+.offer { max-width: 760px; margin: 34px auto 0; background: var(--paper); border: 2px solid var(--gold); border-radius: 28px; padding: clamp(24px, 4vw, 40px); box-shadow: var(--shadow); }
+.offer .covers { display: flex; justify-content: center; align-items: flex-end; margin-bottom: 22px; }
+.offer .covers img { width: clamp(78px, 21vw, 118px); margin-inline: 4px; filter: drop-shadow(0 10px 12px rgba(120, 60, 70, .28)); }
+.offer-photo { width: min(100%, 300px); margin: 0 auto 16px; border-radius: 20px; box-shadow: var(--shadow); }
+.letter { max-width: 640px; margin: 34px auto 0; background: var(--paper); border: 1px solid var(--line); border-radius: 6px 26px 26px 26px; padding: clamp(24px, 5vw, 44px); box-shadow: var(--shadow); font-family: var(--f-italic); font-style: italic; font-size: clamp(21px, 3vw, 25px); line-height: 1.45; text-align: left; }
+.letter p + p { margin-top: 14px; }
+.letter .sign { font-family: var(--f-script); font-style: normal; color: var(--hot); font-size: 24px; }
+.letter .today { border-top: 1px dashed var(--gold); margin-top: 22px; padding-top: 16px; font-family: var(--f-body); font-style: normal; font-size: 15.5px; color: var(--ink-soft); }
+.letter .today b { color: var(--ink); }
+.items { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; }
+.items li { display: flex; justify-content: space-between; gap: 16px; padding: 13px 0; border-top: 1px solid var(--line); }
+.items li span:last-child { color: var(--ink-soft); font-size: 15px; text-align: right; flex-shrink: 0; }
+.items li:first-child { border-top: 0; }
+.price { text-align: center; margin: 26px 0 6px; }
+.price .num { font-family: var(--f-display); font-size: clamp(50px, 9vw, 76px); color: var(--hot); line-height: 1; }
+.price .sub { font-size: 15px; color: var(--ink-soft); margin-top: 6px; }
+.guarantee { display: flex; gap: 14px; align-items: flex-start; text-align: left; border: 1.5px dashed var(--gold); border-radius: 18px; padding: 14px 16px; margin: 18px 0 20px; font-size: 15.5px; }
+.guarantee .seal { flex: 0 0 auto; width: 46px; height: 46px; border-radius: 50%; background: var(--gold); color: var(--paper); font-family: var(--f-display); font-size: 24px; display: grid; place-items: center; }
+.guarantee > div { min-width: 0; }
+.guarantee .terms { margin-top: 8px; }
+.guarantee .terms summary { cursor: pointer; font-weight: 700; color: var(--hot); font-size: 15px; }
+.guarantee .terms ul { margin: 10px 0 0; padding-left: 18px; display: grid; gap: 7px; color: var(--ink-soft); font-size: 14.5px; }
+.price .sub s { color: var(--ink-soft); }
+.offer .btn { width: 100%; }
+.offer .fine { text-align: center; font-size: 14px; color: var(--ink-soft); margin-top: 14px; }
+
+/* faq */
+.faq { max-width: 780px; margin: 34px auto 0; }
+.faq details { border-top: 1px solid var(--line); padding: 4px 0; }
+.faq details:last-child { border-bottom: 1px solid var(--line); }
+.faq summary { cursor: pointer; list-style: none; padding: 16px 36px 16px 0; font-weight: 700; font-size: 18px; position: relative; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; position: absolute; right: 4px; top: 10px; font-size: 28px; color: var(--hot); transition: transform .2s; }
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq details p { padding: 0 8px 18px 0; color: var(--ink-soft); }
+
+/* cierre */
+.final { text-align: center; }
+.final .face { width: 150px; margin: 0 auto 22px; aspect-ratio: 1; border-radius: 50%; padding: 5px; background: var(--paper); border: 2px solid var(--gold); box-shadow: 0 0 0 7px var(--band); }
+.final .face img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.final h2 { font-size: clamp(32px, 5.4vw, 52px); }
+.final .sign { font-family: var(--f-script); font-size: 30px; color: var(--hot); margin-top: 22px; }
+footer { padding-block: 30px calc(30px + 70px); font-size: 13.5px; color: var(--ink-soft); text-align: center; border-top: 1px solid var(--line); }
+footer p { max-width: 70ch; margin-inline: auto; }
+
+/* barra inferior móvil */
+.dock { display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 25; background: var(--paper); border-top: 1px solid var(--line); padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+.dock .btn { width: 100%; min-height: 50px; }
+
+@media (max-width: 900px) {
+  .hero .grid, .split { grid-template-columns: 1fr; }
+  .hero-art { width: min(78%, 330px); }
+  .sections { grid-template-columns: repeat(3, 1fr); }
+  .bonus-grid { grid-template-columns: 1fr; max-width: 460px; margin-inline: auto; }
+  .steps { grid-template-columns: repeat(2, 1fr); }
+  .benefits, .who { grid-template-columns: 1fr; }
+  .dock { display: block; }
+  .top .btn { display: none; }
+}
+@media (max-width: 560px) {
+  body { font-size: 16.5px; }
+  .sections { grid-template-columns: repeat(2, 1fr); }
+  .steps { grid-template-columns: 1fr; }
+  .badge { font-size: 12.5px; padding: 6px 11px; }
+  .badge.b1 { right: 0; }
+  .badge.b2 { left: 0; }
+  .items li { flex-direction: column; gap: 2px; }
+  .items li span:last-child { text-align: left; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .btn, .faq summary::after { transition: none; } }
+</style>
+
+<meta name="description" content="Diario de vida interactivo de 56 páginas con 3 bonos: un cuaderno para sanar, 30 cartas para cada estado de ánimo y una mini-guía de citas contigo misma.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="El Diario De Una Soltera">
+<meta property="og:description" content="Un espacio para conocerte, amarte y construir la vida que sueñas. Diario interactivo más 3 bonos.">
+<meta property="og:locale" content="es_LA">
+<!-- OG_IMAGE: cuando tengas la dirección final, aquí va la URL completa de img/diario_foto.webp -->
+<meta name="theme-color" content="#FDF1F1">
+<link rel="icon" href="img/rostro.webp">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#inicio">El Diario De Una <b>Soltera</b></a>
+    <a class="btn small" href="https://wa.me/" data-buy data-wa="Hola, quiero el pack El Diario De Una Soltera" target="_blank" rel="noopener">Quiero Mi Pack</a>
+  </div>
+</header>
+
+<main id="inicio">
+<!-- 1. Hook, headline y subheadline -->
+<section class="hero">
+  <div class="wrap grid">
+    <div>
+      <p class="eyebrow">Para la mujer que ya no quiere esperar para empezar</p>
+      <h1>Un Diario Para Conocerte, Amarte Y Construir La Vida Que <span class="script">Sueñas</span></h1>
+      <p class="lede">El Diario De Una Soltera es un diario de vida interactivo de 56 páginas, con 3 bonos para soltar lo que pesó, salir contigo misma y recibir una carta para cada estado de ánimo.</p>
+      <div class="cta-row">
+        <a class="btn" href="https://wa.me/" data-buy data-wa="Hola, quiero el pack El Diario De Una Soltera" target="_blank" rel="noopener">Quiero El Pack Completo</a>
+        <a class="btn ghost" href="#adentro">Ver Por Dentro</a>
+      </div>
+      <p class="price-note">Pack completo de 4 archivos por <strong data-price>USD 17,99</strong>. Compra segura con Hotmart.</p>
+      <ul class="trust">
+        <li>113 páginas en total</li>
+        <li>Más de 500 espacios para escribir y marcar</li>
+        <li>Garantía de 7 días</li>
+      </ul>
+    </div>
+    <div class="hero-art">
+      <img src="img/diario_foto.webp" width="860" height="1032" alt="El Diario De Una Soltera: la portada con la chibi sonriente entre flores, sobre una pila de diarios">
+      <span class="badge b1">56 páginas</span>
+      <span class="badge b2">Interactivo</span>
+    </div>
+  </div>
+</section>
+
+<!-- 2. Problema -->
+<section class="band alt">
+  <div class="wrap center">
+    <p class="eyebrow">Te lo digo de mujer a mujer</p>
+    <h2 class="h2" style="margin-top:12px">¿Alguno De Estos Momentos Te Suena?</h2>
+    <ul class="quotes">
+      <li>El domingo en la tarde, cuando el silencio se siente más fuerte.</li>
+      <li>Las dos de la mañana, con la cabeza dando vueltas y nadie a quien escribirle.</li>
+      <li>Ver otra historia de pareja feliz y sentir que te quedaste atrás.</li>
+      <li>Tener el chat de tu ex abierto y el dedo sobre el botón de enviar.</li>
+      <li>Escuchar «¿y novio para cuándo?» en la reunión familiar.</li>
+    </ul>
+    <!-- 3. Agitación -->
+    <p class="pivot">Mientras esperas que alguien llegue, tus metas, tus viajes, tu dinero y tu paz quedan en pausa. La soltería no es una sala de espera. Es una etapa de tu vida y merece un lugar donde ordenarla.</p>
+    <div class="cta-row" style="justify-content:center"><a class="btn" href="https://wa.me/" data-buy data-wa="Hola, quiero el pack El Diario De Una Soltera" target="_blank" rel="noopener">Quiero Empezar Hoy</a></div>
+  </div>
+</section>
+
+<!-- 4. Solución y mecanismo -->
+<section class="band" id="diario">
+  <div class="wrap center">
+    <p class="eyebrow">El producto principal</p>
+    <h2 class="h2" style="margin-top:12px">Cinco Secciones Para Ordenar Tu Vida</h2>
+    <p class="lede">El Diario De Una Soltera te acompaña por cinco áreas de tu vida. Cada una abre con una bienvenida que te motiva y una intención que escribes tú, y sigue con páginas guiadas y páginas libres, para que avances a tu ritmo.</p>
+    <div class="sections">
+      <div class="sec"><div class="ring"><img src="img/s_finanzas.webp" width="360" height="360" alt="Ilustración de la sección Finanzas"></div><h3>Finanzas</h3><p>Ordenar tu dinero también es una forma de quererte.</p></div>
+      <div class="sec"><div class="ring"><img src="img/s_dios.webp" width="360" height="360" alt="Ilustración de la sección Dios"></div><h3>Dios</h3><p>Un espacio de calma para hablar, agradecer y escuchar.</p></div>
+      <div class="sec"><div class="ring"><img src="img/s_metas.webp" width="360" height="360" alt="Ilustración de la sección Metas"></div><h3>Metas</h3><p>Pasos pequeños, escritos y con sentido.</p></div>
+      <div class="sec"><div class="ring"><img src="img/s_viajes.webp" width="360" height="360" alt="Ilustración de la sección Viajes"></div><h3>Viajes</h3><p>Los lugares que quieres conocer, empezando contigo.</p></div>
+      <div class="sec"><div class="ring"><img src="img/s_suenos.webp" width="360" height="360" alt="Ilustración de la sección Sueños"></div><h3>Sueños</h3><p>Lo que deseas, escrito con nombre propio.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band paper">
+  <div class="wrap split">
+    <div class="stack">
+      <p class="eyebrow">Qué trae el diario</p>
+      <h2 class="h2">56 Páginas Hechas Para Escribir En Ellas</h2>
+      <ul class="checks">
+        <li>Carta de bienvenida con tu nombre y un índice con enlaces a cada sección.</li>
+        <li>Cinco secciones de 10 páginas cada una, con ilustraciones de la chibi y su gato.</li>
+        <li>Páginas guiadas con preguntas y páginas completamente libres.</li>
+        <li>Más de 500 espacios para escribir y marcar, directamente en el archivo.</li>
+        <li>Cierre del diario, carta final y certificado de tu proceso.</li>
+      </ul>
+    </div>
+    <div class="peek-lite" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start">
+      <img src="img/p_diario_bienvenida.webp" width="620" height="800" alt="Página de bienvenida del diario" style="border-radius:10px;border:1px solid var(--line);box-shadow:var(--shadow)">
+      <img src="img/p_diario_finanzas.webp" width="620" height="800" alt="Página de apertura de la sección Finanzas" style="border-radius:10px;border:1px solid var(--line);box-shadow:var(--shadow);margin-top:28px">
+    </div>
+  </div>
+</section>
+
+<!-- 5. Prueba: vista previa real -->
+<section class="band alt" id="adentro">
+  <div class="wrap">
+    <div class="center">
+      <p class="eyebrow">Mira antes de decidir</p>
+      <h2 class="h2" style="margin-top:12px">Así Se Ve Por Dentro</h2>
+      <p class="lede">Estas son páginas reales de los cuatro archivos. Desliza para verlas.</p>
+    </div>
+    <div class="peek" tabindex="0" aria-label="Páginas de ejemplo del pack">
+      <figure><img src="img/p_diario_bienvenida.webp" width="620" height="800" alt="Diario: carta de bienvenida"><figcaption>Diario: carta de bienvenida</figcaption></figure>
+      <figure><img src="img/p_diario_finanzas.webp" width="620" height="800" alt="Diario: sección Finanzas"><figcaption>Diario: sección Finanzas</figcaption></figure>
+      <figure><img src="img/p_diario_intro.webp" width="620" height="800" alt="Diario: bienvenida a cada sección"><figcaption>Diario: bienvenida y tu intención</figcaption></figure>
+      <figure><img src="img/p_diario_dios.webp" width="620" height="800" alt="Diario: sección Dios"><figcaption>Diario: sección Dios</figcaption></figure>
+      <figure><img src="img/p_cuaderno_pasado.webp" width="620" height="800" alt="Cuaderno: limpieza del pasado"><figcaption>Cuaderno: limpieza del pasado</figcaption></figure>
+      <figure><img src="img/p_cuaderno_pareja.webp" width="620" height="800" alt="Cuaderno: definiendo mi pareja ideal"><figcaption>Cuaderno: mi pareja ideal</figcaption></figure>
+      <figure><img src="img/p_cartas_indice.webp" width="620" height="800" alt="Cartas: elige tu carta"><figcaption>Cartas: elige tu estado</figcaption></figure>
+      <figure><img src="img/p_cartas_domingos.webp" width="620" height="800" alt="Carta para los domingos"><figcaption>Carta para los domingos</figcaption></figure>
+      <figure><img src="img/p_guia_bucket.webp" width="620" height="800" alt="Mini-guía: citas conmigo misma"><figcaption>Mini-guía: citas contigo</figcaption></figure>
+      <figure><img src="img/p_guia_nivel.webp" width="620" height="800" alt="Mini-guía: niveles de citas"><figcaption>Mini-guía: por niveles</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- Carta de muestra -->
+<section class="band paper" id="muestra">
+  <div class="wrap center">
+    <p class="eyebrow">Una muestra</p>
+    <h2 class="h2" style="margin-top:12px">Lee Una Carta Antes De Decidir</h2>
+    <p class="lede">Así suenan las 30 cartas. Esta es la carta para los domingos, tal como viene en el pack.</p>
+    <article class="letter">
+      <p>Querida tú:</p>
+      <p>Sé que los domingos pesan distinto. El silencio se escucha más fuerte y el teléfono parece no sonar para ti.</p>
+      <p>Quiero decirte algo: estar sola un domingo no significa que a nadie le importes. Significa que hoy tienes un día entero para elegir cómo quieres tratarte.</p>
+      <p>Haz algo pequeño que te dé calor: un café largo, buena música, una caminata, una llamada a esa persona que siempre te hace reír. Lo que sientes es una ola, y las olas pasan. Mientras tanto, acompáñate como acompañarías a tu mejor amiga.</p>
+      <p class="sign">Con cariño, El Diario De Una Soltera</p>
+      <p class="today"><b>Para hoy:</b> Prepárate algo rico y cómelo sin prisa y sin celular.</p>
+    </article>
+    <div class="cta-row" style="justify-content:center"><a class="btn" href="https://wa.me/" data-buy data-wa="Hola, quiero el pack El Diario De Una Soltera" target="_blank" rel="noopener">Quiero Las 30 Cartas Y Todo El Pack</a></div>
+  </div>
+</section>
+
+<!-- 6. Bonos -->
+<section class="band" id="bonos">
+  <div class="wrap center">
+    <p class="eyebrow">Y además, 3 bonos incluidos</p>
+    <h2 class="h2" style="margin-top:12px">Para Sanar, Salir Contigo Y Sentirte Acompañada</h2>
+    <p class="lede">El diario te ordena la vida. Los bonos cubren lo que más duele y lo que más se disfruta de esta etapa.</p>
+    <div class="bonus-grid">
+      <article class="bonus">
+        <span class="tag">Bono 1</span>
+        <img src="img/cuaderno.webp" width="663" height="1100" alt="Portada del cuaderno Sanando El Corazón Y Subiendo El Estándar">
+        <h3>Sanando El Corazón Y Subiendo El Estándar</h3>
+        <p>Un cuaderno de trabajo para cerrar la historia con tu ex, escribir tu carta de despedida y definir a tu pareja ideal desde la abundancia, no desde la falta.</p>
+        <p class="facts">17 páginas · 12 ejercicios</p>
+      </article>
+      <article class="bonus">
+        <span class="tag">Bono 2</span>
+        <img src="img/cartas.webp" width="718" height="1100" alt="Portada de 30 Cartas Para La Mujer">
+        <h3>30 Cartas Para La Mujer</h3>
+        <p>Una carta para cada estado de ánimo: sola, cansada, con dudas, con miedo, feliz o lista para empezar de nuevo. Eliges la que necesitas y la lees cuando la necesites.</p>
+        <p class="facts">34 páginas · 30 cartas · 9 estados</p>
+      </article>
+      <article class="bonus">
+        <span class="tag">Bono 3</span>
+        <img src="img/guia.webp" width="718" height="1100" alt="Portada de la mini-guía Citas Conmigo Misma y Manual De Supervivencia A Las Red Flags">
+        <h3>Citas Conmigo Misma &amp; Red Flags</h3>
+        <p>Seis citas contigo por niveles, de la más fácil a la más atrevida, y un chequeo rápido de señales para decidir mejor a quién le das tu tiempo.</p>
+        <p class="facts">6 páginas · 6 citas · 4 señales</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Primera semana -->
+<section class="band paper">
+  <div class="wrap center">
+    <p class="eyebrow">Sin complicarte</p>
+    <h2 class="h2" style="margin-top:12px">Tu Primera Semana Con El Pack</h2>
+    <p class="lede">No necesitas tiempo extra. Con diez minutos al día ya estás avanzando.</p>
+    <ol class="steps" style="text-align:left">
+      <li><b>Hoy</b>Abre el diario, escribe tu nombre y la intención de tu primera sección.</li>
+      <li><b>Mañana</b>Entra a las 30 cartas y lee la que corresponde a cómo te sientes.</li>
+      <li><b>Día 3</b>Haz el primer ejercicio del cuaderno: Limpieza del pasado.</li>
+      <li><b>Fin de semana</b>Elige tu primera cita contigo, del nivel principiante.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- 7. Beneficios -->
+<section class="band alt">
+  <div class="wrap">
+    <div class="center">
+      <p class="eyebrow">Lo que te llevas</p>
+      <h2 class="h2" style="margin-top:12px">Más Claridad, Más Calma, Más De Ti</h2>
+    </div>
+    <div class="benefits">
+      <div class="benefit"><h3>Un lugar para lo que sientes</h3><p>Escribes lo que no le cuentas a nadie y lo sueltas de tu cabeza, sin que te juzguen.</p></div>
+      <div class="benefit"><h3>Tu vida en orden</h3><p>Dinero, metas, viajes y sueños en un solo sitio, con pasos pequeños que sí puedes cumplir.</p></div>
+      <div class="benefit"><h3>Una carta para cada noche difícil</h3><p>Cuando no tengas a quién escribirle, tienes una carta que sabe cómo hablarte.</p></div>
+      <div class="benefit"><h3>Un estándar más claro</h3><p>Defines lo que no negocias y lo que quieres sumar, antes de que alguien llegue a tu vida.</p></div>
+      <div class="benefit"><h3>Planes que disfrutas sola</h3><p>Seis citas contigo para llenar el fin de semana con algo que de verdad quieres hacer.</p></div>
+      <div class="benefit"><h3>Constancia sin presión</h3><p>Puedes escribir cinco minutos o una hora. El diario se adapta a ti, no al revés.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 8. Objeciones: para quién es -->
+<section class="band paper">
+  <div class="wrap">
+    <div class="center">
+      <p class="eyebrow">Para que decidas con tranquilidad</p>
+      <h2 class="h2" style="margin-top:12px">¿Es Para Ti?</h2>
+    </div>
+    <div class="who">
+      <div>
+        <h3>Es para ti si…</h3>
+        <ul>
+          <li>Quieres ordenar tu vida y tus emociones por escrito.</li>
+          <li>Estás cerrando una relación y necesitas soltarla con calma.</li>
+          <li>Te gustan las cosas bonitas y hechas con cariño.</li>
+          <li>Quieres disfrutar tu soltería en vez de esperar que termine.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Tenlo en cuenta</h3>
+        <ul>
+          <li>Es un producto digital en PDF. No llega nada físico a tu casa.</li>
+          <li>No es terapia ni reemplaza a un profesional. Si estás pasando por un momento muy duro, habla con alguien de confianza o con un servicio de ayuda de tu país.</li>
+          <li>Funciona si lo usas. Escribir es lo que hace el trabajo.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 9. Oferta -->
+<section class="band alt" id="oferta">
+  <div class="wrap center">
+    <p class="eyebrow">El pack completo</p>
+    <h2 class="h2" style="margin-top:12px">Todo Lo Que Necesitas Para Empezar Hoy</h2>
+    <div class="offer">
+      <img class="offer-photo" src="img/diario_foto.webp" width="860" height="1032" alt="El Diario De Una Soltera sobre una pila de diarios">
+      <div class="covers">
+        <img src="img/cuaderno.webp" width="663" height="1100" alt="Cuaderno de trabajo">
+        <img src="img/cartas.webp" width="718" height="1100" alt="30 Cartas">
+        <img src="img/guia.webp" width="718" height="1100" alt="Mini-guía">
+      </div>
+      <ul class="items" style="text-align:left">
+        <li><span><b>El Diario De Una Soltera</b></span><span>56 páginas interactivas</span></li>
+        <li><span>Bono: Sanando El Corazón Y Subiendo El Estándar</span><span>17 páginas</span></li>
+        <li><span>Bono: 30 Cartas Para La Mujer</span><span>34 páginas</span></li>
+        <li><span>Bono: Citas Conmigo Misma &amp; Red Flags</span><span>6 páginas</span></li>
+      </ul>
+      <div class="price">
+        <div class="num" data-price>USD 17,99</div>
+        <p class="sub">Pago único · 4 archivos PDF · Compra segura con Hotmart</p>
+        <p class="sub">Menos que una salida a comer, y te acompaña todo el año.</p>
+      </div>
+      <div class="guarantee"><span class="seal">7</span><div><p><b>Garantía de satisfacción de 7 días.</b> Si no estás satisfecha con tu compra, te devolvemos el 100% de tu dinero dentro de los primeros 7 días calendario. Vale aunque ya hayas abierto los archivos.</p>
+        <details class="terms"><summary>Ver condiciones y cómo pedirla</summary>
+          <ul>
+            <li><b>Uso del producto:</b> la garantía vale aunque ya hayas descargado y abierto los archivos.</li>
+            <li><b>Plazo:</b> la solicitud debe enviarse dentro de los 7 días posteriores a la compra.</li>
+            <li><b>Límite:</b> aplica una sola vez por usuaria y solo para la primera compra.</li>
+            <li><b>Cómo pedirla:</b> entra a refund.hotmart.com con tu código de transacción y el correo de tu compra. Si necesitas ayuda, escríbenos por WhatsApp con el asunto «Solicitud de Garantía» y tu código.</li>
+            <li><b>Reembolso:</b> se gestiona a través de Hotmart y, en la mayoría de los casos, vuelve al mismo método de pago de tu compra. El tiempo exacto depende de tu medio de pago.</li>
+          </ul>
+        </details></div></div>
+      <a class="btn" href="https://wa.me/" data-buy data-wa="Hola, quiero el pack El Diario De Una Soltera" target="_blank" rel="noopener">Comprar El Pack Ahora</a>
+      <p class="fine">Pago seguro con Hotmart. Garantía de 7 días.</p>
+      <p class="fine">¿Todavía dudas? <a href="https://wa.me/" data-wa="CARTA" target="_blank" rel="noopener">Escribe CARTA</a> y te enviamos una carta de regalo para que conozcas el estilo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 10. Cómo funciona -->
+<section class="band">
+  <div class="wrap center">
+    <p class="eyebrow">Así de simple</p>
+    <h2 class="h2" style="margin-top:12px">De Tu Compra A Tu Diario</h2>
+    <ol class="steps" style="text-align:left">
+      <li><b>Tocas comprar</b>Se abre la página de pago segura de Hotmart.</li>
+      <li><b>Pagas</b>Eliges uno de los medios de pago disponibles para tu país.</li>
+      <li><b>Recibes tus 4 archivos</b>Cuando se confirma el pago, te llega el acceso al diario y a los tres bonos en PDF.</li>
+      <li><b>Abres y empiezas</b>Usa Adobe Acrobat Reader, que es gratis, para escribir en los campos.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- 11. FAQ -->
+<section class="band paper" id="preguntas">
+  <div class="wrap">
+    <div class="center">
+      <p class="eyebrow">Preguntas frecuentes</p>
+      <h2 class="h2" style="margin-top:12px">Lo Que Más Nos Preguntan</h2>
+    </div>
+    <div class="faq">
+      <details><summary>¿Es un libro físico?</summary><p>No. Es un pack digital de cuatro archivos PDF que recibes después de pagar. Lo abres en tu celular, tableta o computador.</p></details>
+      <details><summary>¿Puedo escribir en el diario desde el celular?</summary><p>El diario tiene campos para escribir. Funcionan mejor con Adobe Acrobat Reader, una aplicación gratuita. Algunos visores del celular no dejan escribir en los campos; si te pasa, escríbenos y te ayudamos a resolverlo.</p></details>
+      <details><summary>¿Lo puedo imprimir?</summary><p>Sí, puedes imprimir las páginas que quieras y escribir a mano. Las páginas están pensadas con espacios amplios para eso.</p></details>
+      <details><summary>¿Cuánto tiempo toma?</summary><p>El que tú decidas. Hay secciones de una sola sentada y páginas para volver cuando quieras. No hay una fecha límite ni una forma correcta de usarlo.</p></details>
+      <details><summary>¿Cómo recibo las cartas?</summary><p>Las 30 cartas vienen en un solo archivo con un índice por estado de ánimo. Buscas cómo te sientes hoy y vas a la carta que corresponde.</p></details>
+      <details><summary>¿Reemplaza a una terapia?</summary><p>No. Es una herramienta de escritura y acompañamiento. Si sientes que el peso es demasiado, busca apoyo de un profesional o de una persona de confianza.</p></details>
+      <details><summary>¿Cómo funciona la garantía?</summary><p>Si no estás satisfecha, te devolvemos el 100% de tu dinero dentro de los primeros 7 días calendario, aunque ya hayas descargado y abierto los archivos. Aplica una sola vez por usuaria y solo para la primera compra. Pídela en refund.hotmart.com con tu código de transacción y el correo de tu compra, o escríbenos por WhatsApp y te ayudamos. El reembolso se gestiona a través de Hotmart y, en la mayoría de los casos, vuelve al mismo método de pago.</p></details>
+      <details><summary>¿Cómo pago?</summary><p>La compra se hace en Hotmart, una plataforma de pagos. En la página de pago verás los medios disponibles para tu país. Si tienes dudas antes de comprar, escríbenos por WhatsApp.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- 12. CTA final -->
+<section class="band alt final">
+  <div class="wrap">
+    <div class="face"><img src="img/rostro.webp" width="420" height="420" alt="La chibi del diario, con moño rosa"></div>
+    <h2>Tu Vida No Empieza Cuando Llega Alguien. Empieza Hoy.</h2>
+    <p class="lede" style="margin:18px auto 0">Abre una página, escribe la primera línea y deja que el resto vaya apareciendo.</p>
+    <div class="cta-row" style="justify-content:center">
+      <a class="btn" href="https://wa.me/" data-buy data-wa="Hola, quiero el pack El Diario De Una Soltera" target="_blank" rel="noopener">Quiero Mi Diario Ahora</a>
+    </div>
+    <p class="price-note">Pack completo por <strong data-price>USD 17,99</strong></p>
+    <p class="sign">Con cariño, El Diario De Una Soltera</p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>El Diario De Una Soltera · Producto digital en formato PDF. Es una herramienta de escritura y no reemplaza la atención de un profesional de la salud mental. Las imágenes del pack son ilustraciones propias de la marca. La compra se procesa a través de Hotmart.</p>
+  </div>
+</footer>
+
+<div class="dock"><a class="btn" href="https://wa.me/" data-buy data-wa="Hola, quiero el pack El Diario De Una Soltera" target="_blank" rel="noopener">Quiero El Pack · <span data-price>USD 17,99</span></a></div>
+
+<script>
+  // Datos que cambian de dueña: número de WhatsApp (solo dígitos con código de país), enlace de Hotmart, precio y píxel de Meta.
+  var WA_NUMBER = "573002479908";
+  var HOTMART_URL = "https://pay.hotmart.com/U108139963L?off=48ou73zl&bid=1792637889417";
+  var PRICE = "USD 17,99";
+  var PIXEL_ID = ""; // pega aquí el ID de tu píxel de Meta (solo números)
+
+  if (PIXEL_ID) {
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', PIXEL_ID);
+    fbq('track', 'PageView');
+    fbq('track', 'ViewContent', { content_name: 'Pack El Diario De Una Soltera', value: 17.99, currency: 'USD' });
+  }
+  function track(ev, params) { try { if (window.fbq) { fbq('track', ev, params || {}); } } catch (e) {} }
+
+  document.querySelectorAll("[data-wa]").forEach(function (a) {
+    var text = encodeURIComponent(a.getAttribute("data-wa"));
+    a.href = "https://wa.me/" + (WA_NUMBER ? WA_NUMBER : "") + "?text=" + text;
+  });
+  if (HOTMART_URL) {
+    document.querySelectorAll("[data-buy]").forEach(function (a) { a.href = HOTMART_URL; });
+  }
+  document.querySelectorAll("[data-price]").forEach(function (el) { el.textContent = PRICE; });
+  document.querySelectorAll("[data-buy]").forEach(function (a) {
+    a.addEventListener("click", function () { track("InitiateCheckout", { value: 17.99, currency: "USD" }); });
+  });
+  document.querySelectorAll("a[data-wa]:not([data-buy])").forEach(function (a) {
+    a.addEventListener("click", function () { track("Lead", { content_name: "Carta gratis" }); });
+  });
+</script>
+
+</body>
+</html>
